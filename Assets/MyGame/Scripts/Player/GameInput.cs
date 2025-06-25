@@ -2,24 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameInput : MonoBehaviour
 {
-    public static GameInput Instance { get; private set; }
 
     private PlayerInput playerInput;
 
     public event EventHandler OnDodgeHold;
     public event EventHandler OnDodgeCancel;
+    public event EventHandler OnAttackPress;
 
     private void Awake()
     {
-        Instance = this;
         playerInput = new PlayerInput();
+        Cursor.lockState = CursorLockMode.None;
+        InputSystem.EnableDevice(Mouse.current);
 
         playerInput.Player.Enable();
+        playerInput.Player.Attack.Enable();
         playerInput.Player.Dodge.performed += Dodge_performed;
         playerInput.Player.Dodge.canceled += Dodge_canceled;
+        playerInput.Player.Attack.performed += Attack_performed;
+    }
+
+    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        OnAttackPress?.Invoke(this, EventArgs.Empty);
     }
 
     private void Dodge_canceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)

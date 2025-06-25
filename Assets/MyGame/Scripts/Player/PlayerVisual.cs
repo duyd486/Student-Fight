@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
 {
-    private PlayerLocomotion player;
+    private PlayerLocomotion playerLocomotion;
+    private PlayerAttack playerAttack;
     private Animator animator;
 
     private const string IS_WALKING = "Walk";
     private const string IS_IDLE = "Idle";
     private const string IS_RUNNING = "Running";
+    private const string IS_ATTACK = "Punch";
+
     private float walkingDuration = 0f;
     private float runningDuration = 0f;
     private float idleDuration = 0f;
@@ -19,19 +22,26 @@ public class PlayerVisual : MonoBehaviour
 
     private void Start()
     {
-        player = GetComponentInParent<PlayerLocomotion>();
+        playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+        playerAttack = GetComponentInParent<PlayerAttack>();
         animator = GetComponent<Animator>();
 
-        player.OnMoveChanged += Player_OnMoveChanged;
+        playerLocomotion.OnMoveChanged += PlayerLocomotion_OnMoveChanged;
+        playerAttack.OnAttackPress += PlayerAttack_OnAttackPress;
     }
 
-    private void Player_OnMoveChanged(object sender, System.EventArgs e)
+    private void PlayerAttack_OnAttackPress(object sender, System.EventArgs e)
+    {
+        animator.CrossFade(IS_ATTACK, 0f);
+    }
+
+    private void PlayerLocomotion_OnMoveChanged(object sender, System.EventArgs e)
     {
 
-        if (player.IsWalking())
+        if (playerLocomotion.IsWalking())
         {
 
-            if (player.IsRunning())
+            if (playerLocomotion.IsRunning())
             {
                 animator.CrossFade(IS_RUNNING, runningDuration);
                 walkingDuration = 0.4f;

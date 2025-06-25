@@ -7,23 +7,37 @@ using UnityEngine.EventSystems;
 
 public class PlayerLocomotion : MonoBehaviour
 {
+    [SerializeField] private GameInput gameInput;
+    [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private float currentMoveSpeed;
     [SerializeField] private float defaultMoveSpeed = 7f;
     [SerializeField] private float runSpeed = 15f;
     [SerializeField] private float rotateSpeed = 12f;
-    [SerializeField] private GameInput gameInput;
     [SerializeField] private bool isWalking = false;
     [SerializeField] private bool isRunning = false;
+    [SerializeField] private bool canMove = true;
 
 
     public event EventHandler OnMoveChanged;
 
+    private void Awake()
+    {
+        gameInput = GetComponent<GameInput>();
+        playerAttack = GetComponent<PlayerAttack>();
+    }
+
     private void Start()
     {
-        GameInput.Instance.OnDodgeHold += GameInput_OnDodgeHold;
-        GameInput.Instance.OnDodgeCancel += GameInput_OnDodgeCancel;
+        gameInput.OnDodgeHold += GameInput_OnDodgeHold;
+        gameInput.OnDodgeCancel += GameInput_OnDodgeCancel;
+        playerAttack.OnAttackPress += PlayerAttack_OnAttackPress;
 
         currentMoveSpeed = defaultMoveSpeed;
+    }
+
+    private void PlayerAttack_OnAttackPress(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     private void GameInput_OnDodgeCancel(object sender, EventArgs e)
@@ -42,7 +56,10 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Update()
     {
-        HandleMovement();
+        if (canMove)
+        {
+            HandleMovement();
+        }
     }
 
     private void HandleMovement()
@@ -82,5 +99,9 @@ public class PlayerLocomotion : MonoBehaviour
     public bool IsRunning()
     {
         return isRunning;
+    }
+    public void ChangeCanMove(bool canMove)
+    {
+        this.canMove = canMove;
     }
 }
