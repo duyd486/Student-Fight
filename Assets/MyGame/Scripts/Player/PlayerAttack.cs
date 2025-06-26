@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     [SerializeField] private PlayerLocomotion playerLocomotion;
 
-    public event EventHandler OnAttackPress;
+    public event EventHandler OnPlayerAttack;
 
     private void Awake()
     {
@@ -27,11 +27,8 @@ public class PlayerAttack : MonoBehaviour
         AttackPerform();
     }
 
-    private async void AttackPerform()
+    private void AttackPerform()
     {
-        OnAttackPress?.Invoke(this, EventArgs.Empty);
-        playerLocomotion.ChangeCanMove(false);
-        await Task.Delay(1000);
-        playerLocomotion.ChangeCanMove(true);
+        OnPlayerAttack?.Invoke(this, EventArgs.Empty);
     }
 }

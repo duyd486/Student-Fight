@@ -221,13 +221,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e6ad0a2b3651940b9286948819fcf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameInput: {fileID: 8002415}
+  playerAttack: {fileID: 8002416}
   currentMoveSpeed: 0
   defaultMoveSpeed: 4
   runSpeed: 10
   rotateSpeed: 10
-  gameInput: {fileID: 8002415}
   isWalking: 0
   isRunning: 0
+  canMove: 1
 --- !u!114 &8002415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78ef8c8dcb472124b986b9a1529a66c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameInput: {fileID: 0}
+  gameInput: {fileID: 8002415}
+  playerLocomotion: {fileID: 8002414}
 --- !u!1 &245811589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1931115787770396417, guid: 0c690fd83ca6e4345a6ad6e9e272384e,
@@ -1629,7 +1632,7 @@ MonoBehaviour:
   m_YAxis:
     Value: 0.5
     m_SpeedMode: 0
-    m_MaxSpeed: 8
+    m_MaxSpeed: 4
     m_AccelTime: 0.2
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -1653,7 +1656,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_MaxSpeed: 150
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X

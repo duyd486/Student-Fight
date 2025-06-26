@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -30,14 +31,22 @@ public class PlayerLocomotion : MonoBehaviour
     {
         gameInput.OnDodgeHold += GameInput_OnDodgeHold;
         gameInput.OnDodgeCancel += GameInput_OnDodgeCancel;
-        playerAttack.OnAttackPress += PlayerAttack_OnAttackPress;
+        playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
 
         currentMoveSpeed = defaultMoveSpeed;
     }
 
-    private void PlayerAttack_OnAttackPress(object sender, EventArgs e)
+    private void PlayerAttack_OnPlayerAttack(object sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        MoveDelay(800);
+    }
+
+    private async void MoveDelay(int milisecDelay)
+    {
+        canMove = false;
+        await Task.Delay(milisecDelay);
+        canMove = true;
+        OnMoveChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnDodgeCancel(object sender, EventArgs e)
