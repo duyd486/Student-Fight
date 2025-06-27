@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,11 +35,12 @@ public class PlayerVisual : MonoBehaviour
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
     }
 
-    private void PlayerAttack_OnPlayerAttack(object sender, System.EventArgs e)
+    private void PlayerAttack_OnPlayerAttack(int index)
     {
-        animator.CrossFade(IS_ATTACK, attackDuration);
-        walkingDuration = 0.4f;
-        runningDuration = 0.4f;
+        animator.CrossFade(IS_ATTACK + index.ToString(), attackDuration);
+        walkingDuration = 0.1f;
+        runningDuration = 0.1f;
+        Debug.Log(IS_ATTACK + index.ToString());
     }
 
     private void PlayerLocomotion_OnMoveChanged(object sender, System.EventArgs e)
@@ -52,14 +54,14 @@ public class PlayerVisual : MonoBehaviour
                 animator.CrossFade(IS_RUNNING, runningDuration);
                 walkingDuration = 0.4f;
                 idleDuration = 0.5f;
-                attackDuration = 0.08f;
+                attackDuration = 0.1f;
             }
             else
             {
                 animator.CrossFade(IS_WALKING, walkingDuration);
                 runningDuration = 0.4f;
                 idleDuration = 0.5f;
-                attackDuration = 0.08f;
+                attackDuration = 0.1f;
             }
         }
         else

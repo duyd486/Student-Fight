@@ -36,7 +36,7 @@ public class PlayerLocomotion : MonoBehaviour
         currentMoveSpeed = defaultMoveSpeed;
     }
 
-    private void PlayerAttack_OnPlayerAttack(object sender, EventArgs e)
+    private void PlayerAttack_OnPlayerAttack(int obj)
     {
         MoveDelay(800);
     }

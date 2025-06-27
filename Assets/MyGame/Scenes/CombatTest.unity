@@ -134,8 +134,8 @@ GameObject:
   - component: {fileID: 8002413}
   - component: {fileID: 8002412}
   - component: {fileID: 8002414}
-  - component: {fileID: 8002415}
   - component: {fileID: 8002416}
+  - component: {fileID: 8002415}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -255,7 +255,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInput: {fileID: 8002415}
-  playerLocomotion: {fileID: 8002414}
+  timeBtwAtk: 0.86
+  comboTimer: 0
+  timeBtwTimer: 0
+  indexCombo: 1
 --- !u!1 &245811589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1931115787770396417, guid: 0c690fd83ca6e4345a6ad6e9e272384e,

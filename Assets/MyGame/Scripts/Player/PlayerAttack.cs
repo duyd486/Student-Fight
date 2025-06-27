@@ -7,19 +7,28 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private PlayerLocomotion playerLocomotion;
 
-    public event EventHandler OnPlayerAttack;
+    [SerializeField] private float timeBtwAtk = 0.8f;
+    [SerializeField] private float comboTimer = 0f;
+    [SerializeField] private float timeBtwTimer = 0f;
+    [SerializeField] private int indexCombo = 1;
+
+    public event Action<int> OnPlayerAttack;
 
     private void Awake()
     {
         gameInput = GetComponent<GameInput>();
-        playerLocomotion = GetComponent<PlayerLocomotion>();
     }
 
     private void Start()
     {
         gameInput.OnAttackPress += GameInput_OnAttackPress;
+    }
+
+    private void Update()
+    {
+        timeBtwTimer -= Time.deltaTime;
+        comboTimer -= Time.deltaTime;
     }
 
     private void GameInput_OnAttackPress(object sender, System.EventArgs e)
@@ -29,6 +38,26 @@ public class PlayerAttack : MonoBehaviour
 
     private void AttackPerform()
     {
-        OnPlayerAttack?.Invoke(this, EventArgs.Empty);
+        if (timeBtwTimer < 0f)
+        {
+
+            if (comboTimer > 0f)
+            {
+                indexCombo++;
+            }
+            else
+            {
+                indexCombo = 1;
+            }
+            if (indexCombo > 3)
+            {
+                indexCombo = 1;
+            }
+
+            OnPlayerAttack?.Invoke(indexCombo);
+            comboTimer = 2f;
+            timeBtwTimer = timeBtwAtk;
+        }
+        else return;
     }
 }
