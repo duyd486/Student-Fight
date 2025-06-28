@@ -7,17 +7,20 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private GameInput gameInput;
+    [SerializeField] private Rigidbody rb;
 
     [SerializeField] private float timeBtwAtk = 0.8f;
     [SerializeField] private float comboTimer = 0f;
     [SerializeField] private float timeBtwTimer = 0f;
     [SerializeField] private int indexCombo = 1;
+    [SerializeField] private float attackPush = 20f;
 
     public event Action<int> OnPlayerAttack;
 
     private void Awake()
     {
         gameInput = GetComponent<GameInput>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -57,6 +60,7 @@ public class PlayerAttack : MonoBehaviour
             OnPlayerAttack?.Invoke(indexCombo);
             comboTimer = 2f;
             timeBtwTimer = timeBtwAtk;
+            rb.AddForce(transform.forward * attackPush);
         }
         else return;
     }

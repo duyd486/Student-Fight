@@ -255,10 +255,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInput: {fileID: 8002415}
-  timeBtwAtk: 0.86
+  rb: {fileID: 0}
+  timeBtwAtk: 0.9
   comboTimer: 0
   timeBtwTimer: 0
   indexCombo: 1
+  attackPush: 100
 --- !u!1 &245811589 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1931115787770396417, guid: 0c690fd83ca6e4345a6ad6e9e272384e,

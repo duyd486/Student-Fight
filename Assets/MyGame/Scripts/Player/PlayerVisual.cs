@@ -69,7 +69,7 @@ public class PlayerVisual : MonoBehaviour
             animator.CrossFade(IS_IDLE, idleDuration);
             walkingDuration = 0f;
             runningDuration = 0f;
-            attackDuration = 0f;
+            attackDuration = 0.05f;
         }
     }
 }
