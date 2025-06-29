@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
@@ -28,7 +29,6 @@ public class PlayerVisual : MonoBehaviour
         playerLocomotion = GetComponentInParent<PlayerLocomotion>();
         playerAttack = GetComponentInParent<PlayerAttack>();
         gameInput = GetComponentInParent<GameInput>();
-        
         animator = GetComponent<Animator>();
 
         playerLocomotion.OnMoveChanged += PlayerLocomotion_OnMoveChanged;
@@ -40,27 +40,29 @@ public class PlayerVisual : MonoBehaviour
         animator.CrossFade(IS_ATTACK + index.ToString(), attackDuration);
         walkingDuration = 0.1f;
         runningDuration = 0.1f;
-        Debug.Log(IS_ATTACK + index.ToString());
     }
 
     private void PlayerLocomotion_OnMoveChanged(object sender, System.EventArgs e)
     {
+        HandleAnimation();
+    }
 
+    private void HandleAnimation()
+    {
         if (playerLocomotion.IsWalking())
         {
-
             if (playerLocomotion.IsRunning())
             {
                 animator.CrossFade(IS_RUNNING, 0f);
                 walkingDuration = 0.4f;
-                idleDuration = 0.5f;
+                idleDuration = 0f;
                 attackDuration = 0.1f;
             }
             else
             {
                 animator.CrossFade(IS_WALKING, walkingDuration);
                 runningDuration = 0.4f;
-                idleDuration = 0.5f;
+                idleDuration = 0.4f;
                 attackDuration = 0.1f;
             }
         }
@@ -72,4 +74,5 @@ public class PlayerVisual : MonoBehaviour
             attackDuration = 0.01f;
         }
     }
+
 }
