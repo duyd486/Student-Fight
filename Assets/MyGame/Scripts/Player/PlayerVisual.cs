@@ -8,6 +8,7 @@ public class PlayerVisual : MonoBehaviour
 {
     private PlayerLocomotion playerLocomotion;
     private PlayerAttack playerAttack;
+    private PlayerHealth playerHealth;
     private GameInput gameInput;
     private Animator animator;
 
@@ -29,10 +30,23 @@ public class PlayerVisual : MonoBehaviour
         playerLocomotion = GetComponentInParent<PlayerLocomotion>();
         playerAttack = GetComponentInParent<PlayerAttack>();
         gameInput = GetComponentInParent<GameInput>();
+        playerHealth = GetComponentInParent<PlayerHealth>();
         animator = GetComponent<Animator>();
 
         playerLocomotion.OnMoveChanged += PlayerLocomotion_OnMoveChanged;
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
+        playerHealth.OnPlayerBlock += PlayerHealth_OnPlayerBlock;
+        playerHealth.OnPlayerBlockStop += PlayerHealth_OnPlayerBlockStop;
+    }
+
+    private void PlayerHealth_OnPlayerBlockStop(object sender, EventArgs e)
+    {
+        HandleLocomotion();
+    }
+
+    private void PlayerHealth_OnPlayerBlock(object sender, EventArgs e)
+    {
+        animator.CrossFade("Block", 0f);
     }
 
     private void PlayerAttack_OnPlayerAttack(int index)
@@ -44,10 +58,10 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerLocomotion_OnMoveChanged(object sender, System.EventArgs e)
     {
-        HandleAnimation();
+        HandleLocomotion();
     }
 
-    private void HandleAnimation()
+    private void HandleLocomotion()
     {
         if (playerLocomotion.IsWalking())
         {
@@ -75,4 +89,11 @@ public class PlayerVisual : MonoBehaviour
         }
     }
 
+
+
+    private void FinishPunch()
+    {
+        playerLocomotion.ChangeCanMove(true);
+        HandleLocomotion();
+    }
 }

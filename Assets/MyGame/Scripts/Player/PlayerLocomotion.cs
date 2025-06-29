@@ -44,15 +44,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void PlayerAttack_OnPlayerAttack(int obj)
     {
-        MoveDelay(900);
-    }
-
-    private async void MoveDelay(int milisecDelay)
-    {
         canMove = false;
-        await Task.Delay(milisecDelay);
-        canMove = true;
-        OnMoveChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnDodgeCancel(object sender, EventArgs e)

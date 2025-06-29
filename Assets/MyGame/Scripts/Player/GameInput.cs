@@ -13,6 +13,9 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnDodgeHold;
     public event EventHandler OnDodgeCancel;
     public event EventHandler OnAttackPress;
+    public event EventHandler OnBlockPress;
+
+    public event EventHandler OnBlockCancel;
 
     private void Awake()
     {
@@ -22,10 +25,29 @@ public class GameInput : MonoBehaviour
 
         playerInput.Player.Enable();
         playerInput.Player.Attack.Enable();
+        playerInput.Player.Block.Enable();
         playerInput.Player.Dodge.started += Dodge_started;
         playerInput.Player.Dodge.performed += Dodge_performed;
         playerInput.Player.Dodge.canceled += Dodge_canceled;
         playerInput.Player.Attack.performed += Attack_performed;
+        playerInput.Player.Block.started += Block_started;
+        playerInput.Player.Block.performed += Block_performed;
+        playerInput.Player.Block.canceled += Block_canceled;
+    }
+
+    private void Block_canceled(InputAction.CallbackContext obj)
+    {
+        OnBlockCancel?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Block_performed(InputAction.CallbackContext obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Block_started(InputAction.CallbackContext obj)
+    {
+        OnBlockPress?.Invoke(this, EventArgs.Empty);
     }
 
     private void Dodge_started(InputAction.CallbackContext obj)
