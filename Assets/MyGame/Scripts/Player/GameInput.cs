@@ -9,6 +9,7 @@ public class GameInput : MonoBehaviour
 
     private PlayerInput playerInput;
 
+    public event EventHandler OnDodgePress;
     public event EventHandler OnDodgeHold;
     public event EventHandler OnDodgeCancel;
     public event EventHandler OnAttackPress;
@@ -21,9 +22,15 @@ public class GameInput : MonoBehaviour
 
         playerInput.Player.Enable();
         playerInput.Player.Attack.Enable();
+        playerInput.Player.Dodge.started += Dodge_started;
         playerInput.Player.Dodge.performed += Dodge_performed;
         playerInput.Player.Dodge.canceled += Dodge_canceled;
         playerInput.Player.Attack.performed += Attack_performed;
+    }
+
+    private void Dodge_started(InputAction.CallbackContext obj)
+    {
+        OnDodgePress?.Invoke(this, EventArgs.Empty);
     }
 
     private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)

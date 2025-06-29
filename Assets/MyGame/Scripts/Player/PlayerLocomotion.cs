@@ -29,6 +29,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void Start()
     {
+        gameInput.OnDodgePress += GameInput_OnDodgePress;
         gameInput.OnDodgeHold += GameInput_OnDodgeHold;
         gameInput.OnDodgeCancel += GameInput_OnDodgeCancel;
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
@@ -36,9 +37,14 @@ public class PlayerLocomotion : MonoBehaviour
         currentMoveSpeed = defaultMoveSpeed;
     }
 
+    private void GameInput_OnDodgePress(object sender, EventArgs e)
+    {
+        HandleDodge();
+    }
+
     private void PlayerAttack_OnPlayerAttack(int obj)
     {
-        MoveDelay(800);
+        MoveDelay(900);
     }
 
     private async void MoveDelay(int milisecDelay)
@@ -101,6 +107,22 @@ public class PlayerLocomotion : MonoBehaviour
 
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * rotateSpeed);
     }
+
+    private async void HandleDodge()
+    {
+        isRunning = true;
+        OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        currentMoveSpeed = currentMoveSpeed * 4;
+        await Task.Delay(200);
+        if (isRunning) {
+            currentMoveSpeed = runSpeed;
+        } else
+        {
+            currentMoveSpeed = defaultMoveSpeed;
+        }
+        
+    }
+
     public bool IsWalking()
     {
         return isWalking;

@@ -51,7 +51,7 @@ public class PlayerVisual : MonoBehaviour
 
             if (playerLocomotion.IsRunning())
             {
-                animator.CrossFade(IS_RUNNING, runningDuration);
+                animator.CrossFade(IS_RUNNING, 0f);
                 walkingDuration = 0.4f;
                 idleDuration = 0.5f;
                 attackDuration = 0.1f;
@@ -69,7 +69,7 @@ public class PlayerVisual : MonoBehaviour
             animator.CrossFade(IS_IDLE, idleDuration);
             walkingDuration = 0f;
             runningDuration = 0f;
-            attackDuration = 0.05f;
+            attackDuration = 0.01f;
         }
     }
 }
