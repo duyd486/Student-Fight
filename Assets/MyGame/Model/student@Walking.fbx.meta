@@ -3,7 +3,12 @@ guid: 14dc79c27c7b69047996cdb5796a51c6
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: f02_hair_00_h
+    second: {fileID: 2100000, guid: bf8e4eae911fe5945963fd8dccbdb8a9, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
