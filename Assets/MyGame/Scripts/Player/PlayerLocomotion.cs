@@ -88,7 +88,6 @@ public class PlayerLocomotion : MonoBehaviour
 
         transform.position += moveDir * moveDistance;
 
-
         if((moveDir != Vector3.zero) != isWalking)
         {
             isWalking = moveDir != Vector3.zero;

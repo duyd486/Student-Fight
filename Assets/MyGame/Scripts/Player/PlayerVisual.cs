@@ -51,7 +51,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerHealth_OnPlayerHit(object sender, EventArgs e)
     {
-        animator.CrossFade(IS_HIT, 0f);
+        animator.CrossFade(IS_HIT, 0f, 0, 0);
     }
 
     private void PlayerHealth_OnPlayerBlockStop(object sender, EventArgs e)

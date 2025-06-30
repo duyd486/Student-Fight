@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private PlayerLocomotion playerLocomotion;
@@ -35,16 +35,16 @@ public class PlayerHealth : MonoBehaviour
         gameInput.OnHitTestPress += GameInput_OnHitTestPress;
     }
 
-    private void GameInput_OnHitTestPress(object sender, EventArgs e)
-    {
-        Hurt(30);
-    }
 
     private void Update()
     {
         timeBtwBlkTimer -= Time.deltaTime;
     }
 
+    private void GameInput_OnHitTestPress(object sender, EventArgs e)
+    {
+        TakeDamage(30);
+    }
     private void GameInput_OnBlockCancel(object sender, EventArgs e)
     {
         BlockCancel();
@@ -55,12 +55,9 @@ public class PlayerHealth : MonoBehaviour
         BlockPerform();
     }
 
-    public void Hurt(float damage)
+
+    public void TakeDamage(float damage)
     {
-        //OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
-
-        //OnPlayerHit?.Invoke(this, EventArgs.Empty);
-
         if (isParry)
         {
             OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
@@ -68,12 +65,13 @@ public class PlayerHealth : MonoBehaviour
         else if (isBlocking)
         {
             // Tru mau nhung it hon
-            rb.AddForce(-transform.forward * damage * 4);
+            rb.AddForce(-transform.forward * damage * 3);
         }
         else
         {
             // Tru mau toan bo theo damage nhan vao
             OnPlayerHit?.Invoke(this, EventArgs.Empty);
+            rb.AddForce(-transform.forward * damage * 4);
             isBlocking = false;
         }
         isParry = false;
