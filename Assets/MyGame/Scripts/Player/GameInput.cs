@@ -17,6 +17,8 @@ public class GameInput : MonoBehaviour
 
     public event EventHandler OnBlockCancel;
 
+    public event EventHandler OnHitTestPress;
+
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -33,6 +35,13 @@ public class GameInput : MonoBehaviour
         playerInput.Player.Block.started += Block_started;
         playerInput.Player.Block.performed += Block_performed;
         playerInput.Player.Block.canceled += Block_canceled;
+
+        playerInput.Player.HitTest.performed += HitTest_performed;
+    }
+
+    private void HitTest_performed(InputAction.CallbackContext obj)
+    {
+        OnHitTestPress?.Invoke(this, EventArgs.Empty);
     }
 
     private void Block_canceled(InputAction.CallbackContext obj)
@@ -42,7 +51,7 @@ public class GameInput : MonoBehaviour
 
     private void Block_performed(InputAction.CallbackContext obj)
     {
-        throw new NotImplementedException();
+        Debug.Log("Block Perform");
     }
 
     private void Block_started(InputAction.CallbackContext obj)

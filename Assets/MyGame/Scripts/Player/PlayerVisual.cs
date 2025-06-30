@@ -16,6 +16,9 @@ public class PlayerVisual : MonoBehaviour
     private const string IS_IDLE = "Idle";
     private const string IS_RUNNING = "Running";
     private const string IS_ATTACK = "Punch";
+    private const string IS_BLOCK = "Block";
+    private const string IS_PARRY = "Parry";
+    private const string IS_HIT = "Hit";
 
     private float walkingDuration = 0f;
     private float runningDuration = 0f;
@@ -37,6 +40,18 @@ public class PlayerVisual : MonoBehaviour
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
         playerHealth.OnPlayerBlock += PlayerHealth_OnPlayerBlock;
         playerHealth.OnPlayerBlockStop += PlayerHealth_OnPlayerBlockStop;
+        playerHealth.OnPlayerHit += PlayerHealth_OnPlayerHit;
+        playerHealth.OnPlayerParrySuccess += PlayerHealth_OnPlayerParrySuccess;
+    }
+
+    private void PlayerHealth_OnPlayerParrySuccess(object sender, EventArgs e)
+    {
+        animator.CrossFade(IS_PARRY, 0f);
+    }
+
+    private void PlayerHealth_OnPlayerHit(object sender, EventArgs e)
+    {
+        animator.CrossFade(IS_HIT, 0f);
     }
 
     private void PlayerHealth_OnPlayerBlockStop(object sender, EventArgs e)
@@ -46,7 +61,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerHealth_OnPlayerBlock(object sender, EventArgs e)
     {
-        animator.CrossFade("Block", 0f);
+        animator.CrossFade(IS_BLOCK, 0f);
     }
 
     private void PlayerAttack_OnPlayerAttack(int index)
@@ -89,7 +104,14 @@ public class PlayerVisual : MonoBehaviour
         }
     }
 
-
+    private void ParryStateStart()
+    {
+        playerHealth.ChangeParryState(true);
+    }
+    private void ParryStateEnd()
+    {
+        playerHealth.ChangeParryState(false);
+    }
 
     private void FinishPunch()
     {
