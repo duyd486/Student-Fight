@@ -8,7 +8,10 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private Transform hitPoint;
 
+    [SerializeField] private float playerDamage = 15f;
+    [SerializeField] private float hitRadius = 1f;
     [SerializeField] private float timeBtwAtk = 0.8f;
     [SerializeField] private float comboTimer = 0f;
     [SerializeField] private float timeBtwTimer = 0f;
@@ -32,14 +35,15 @@ public class PlayerAttack : MonoBehaviour
     {
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
+        DebugDraw.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
 
     private void GameInput_OnAttackPress(object sender, System.EventArgs e)
     {
-        AttackPerform();
+        ComboPerform();
     }
 
-    private void AttackPerform()
+    private void ComboPerform()
     {
         if (timeBtwTimer < 0f)
         {
@@ -63,5 +67,20 @@ public class PlayerAttack : MonoBehaviour
             rb.AddForce(transform.forward * attackPush);
         }
         else return;
+    }
+
+    public void AttackPerform()
+    {
+        Collider[] hits = Physics.OverlapSphere(hitPoint.position, hitRadius);
+
+        foreach (Collider hit in hits)
+        {
+            IDamageable target = hit.GetComponent<IDamageable>();
+
+            if (target != null)
+            {
+                target.TakeDamage(playerDamage);
+            }
+        }
     }
 }

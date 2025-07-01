@@ -116,5 +116,6 @@ public class PlayerVisual : MonoBehaviour
     {
         playerLocomotion.ChangeCanMove(true);
         HandleLocomotion();
+        playerAttack.AttackPerform();
     }
 }

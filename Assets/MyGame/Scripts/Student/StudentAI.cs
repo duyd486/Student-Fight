@@ -17,7 +17,9 @@ public class StudentAI : MonoBehaviour, IDamageable
     {
         if (targetPoint != null)
         {
-            if(Vector3.Distance(transform.position, targetPoint.position) > targetDistance)
+            DebugDraw.DrawLine(targetPoint.position, transform.position, Color.yellow);
+
+            if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance)
             {
                 Vector3 direction = (targetPoint.position - transform.position).normalized;
                 transform.position += moveSpeed * Time.deltaTime * direction;
@@ -28,6 +30,6 @@ public class StudentAI : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, bool canParry = true)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("im being hit " + damage);
     }
 }
