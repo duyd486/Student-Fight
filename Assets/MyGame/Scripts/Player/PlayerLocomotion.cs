@@ -44,21 +44,30 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void GameInput_OnDodgePress(object sender, EventArgs e)
     {
-        HandleDodge();
+        isRunning = true;
+        if (isWalking)
+        {
+            OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     private void GameInput_OnDodgeCancel(object sender, EventArgs e)
     {
-        currentMoveSpeed = defaultMoveSpeed;
+        if (isWalking)
+        {
+            OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        }
         isRunning = false;
-        OnMoveChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void GameInput_OnDodgeHold(object sender, EventArgs e)
     {
-        currentMoveSpeed = runSpeed;
-        isRunning = true;
-        OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        //currentMoveSpeed = runSpeed;
+        //isRunning = true;
+        //if (isWalking)
+        //{
+        //    OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        //}
     }
 
     private void Update()
@@ -71,6 +80,13 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (isRunning)
+        {
+            currentMoveSpeed = runSpeed;
+        } else
+        {
+            currentMoveSpeed = defaultMoveSpeed;
+        }
         Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         float moveDistance = currentMoveSpeed * Time.deltaTime;
 
@@ -102,7 +118,10 @@ public class PlayerLocomotion : MonoBehaviour
     private async void HandleDodge()
     {
         isRunning = true;
-        OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        if (isWalking)
+        {
+            OnMoveChanged?.Invoke(this, EventArgs.Empty);
+        }
         currentMoveSpeed = currentMoveSpeed * 4;
         await Task.Delay(200);
         if (isRunning) {
@@ -121,6 +140,10 @@ public class PlayerLocomotion : MonoBehaviour
     public bool IsRunning()
     {
         return isRunning;
+    }
+    public bool GetCanMove()
+    {
+        return canMove;
     }
     public void ChangeCanMove(bool canMove)
     {

@@ -46,4 +46,17 @@ public class StudentAIVisual : MonoBehaviour
             animator.CrossFade(IS_IDLE, 0f);
         }
     }
+
+    private void ParryStateStart()
+    {
+        Debug.Log("Parry start on student ai");
+    }
+    private void ParryStateEnd()
+    {
+        Debug.Log("Parry end on student ai");
+    }
+    private void FinishPunch()
+    {
+        Debug.Log("Punch on student ai");
+    }
 }

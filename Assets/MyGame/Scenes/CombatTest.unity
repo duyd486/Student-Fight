@@ -904,6 +904,37 @@ Transform:
   - {fileID: 1150424531}
   m_Father: {fileID: 1945454637}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &556128299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 556128300}
+  m_Layer: 0
+  m_Name: HitPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &556128300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556128299}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1964954542}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &747123079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2040,6 +2071,11 @@ MonoBehaviour:
   targetPoint: {fileID: 0}
   moveSpeed: 4
   targetDistance: 1.8
+  moveToTargetDelay: 2
+  moveToTargetTimer: 0
+  canMove: 1
+  isWalking: 0
+  isRunning: 0
 --- !u!4 &1964954542
 Transform:
   m_ObjectHideFlags: 0
@@ -2054,6 +2090,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 730051801304778962}
+  - {fileID: 556128300}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1964954543
@@ -2226,6 +2263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 730051801304778962}
   - component: {fileID: 9177166940282300948}
+  - component: {fileID: 9177166940282300949}
   m_Layer: 0
   m_Name: studentBlackhair
   m_TagString: Untagged
@@ -2327,6 +2365,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9177166940282300949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841563249878122417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f231f46a37e8c854bac180261a54f1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  studentAI: {fileID: 0}
+  animator: {fileID: 9177166940282300948}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

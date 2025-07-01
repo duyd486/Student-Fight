@@ -73,7 +73,10 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerLocomotion_OnMoveChanged(object sender, System.EventArgs e)
     {
-        HandleLocomotion();
+        if (playerLocomotion.GetCanMove())
+        {
+            HandleLocomotion();
+        }
     }
 
     private void HandleLocomotion()
@@ -82,16 +85,16 @@ public class PlayerVisual : MonoBehaviour
         {
             if (playerLocomotion.IsRunning())
             {
-                animator.CrossFade(IS_RUNNING, 0f);
+                animator.CrossFade(IS_RUNNING, runningDuration);
                 walkingDuration = 0.4f;
-                idleDuration = 0f;
+                idleDuration = 0.6f;
                 attackDuration = 0.1f;
             }
             else
             {
                 animator.CrossFade(IS_WALKING, walkingDuration);
                 runningDuration = 0.4f;
-                idleDuration = 0.4f;
+                idleDuration = 1f;
                 attackDuration = 0.1f;
             }
         }
