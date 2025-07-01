@@ -37,14 +37,14 @@ public class PlayerLocomotion : MonoBehaviour
         currentMoveSpeed = defaultMoveSpeed;
     }
 
-    private void GameInput_OnDodgePress(object sender, EventArgs e)
-    {
-        HandleDodge();
-    }
-
     private void PlayerAttack_OnPlayerAttack(int obj)
     {
         canMove = false;
+    }
+
+    private void GameInput_OnDodgePress(object sender, EventArgs e)
+    {
+        HandleDodge();
     }
 
     private void GameInput_OnDodgeCancel(object sender, EventArgs e)

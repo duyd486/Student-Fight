@@ -56,7 +56,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool canParry = true)
     {
         if (isParry)
         {
