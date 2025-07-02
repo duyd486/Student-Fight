@@ -9,6 +9,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private GameInput gameInput;
     [SerializeField] private PlayerLocomotion playerLocomotion;
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private IDamageable enemy;
+
+    public enum State
+    {
+        Combat,
+        Default
+    }
+    private State state;
 
     [SerializeField] private bool isParry = false;
     [SerializeField] private bool isBlocking = false;
@@ -58,9 +66,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, bool canParry = true)
     {
+        Debug.Log("Player is taking damage");
+        state = State.Combat;
         if (isParry)
         {
-            OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
+            HandleParrySuccess();
         }
         else if (isBlocking)
         {
@@ -91,13 +101,25 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private async void BlockCancel()
     {
         isBlocking = false;
-        await Task.Delay(200);
+        await Task.Delay(300);
         playerLocomotion.ChangeCanMove(true);
         OnPlayerBlockStop?.Invoke(this, EventArgs.Empty);
+    }
+
+    private async void HandleParrySuccess()
+    {
+        isBlocking = true;
+        OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
+        await Task.Delay(200);
+        playerLocomotion.ChangeCanMove(true);
     }
 
     public void ChangeParryState(bool state)
     {
         isParry = state;
+    }
+    public State GetCurrentState()
+    {
+        return state;
     }
 }

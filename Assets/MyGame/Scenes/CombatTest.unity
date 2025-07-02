@@ -1879,7 +1879,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938617826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.116644, y: 0, z: 0, w: 0.9931738}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2053,8 +2053,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1964954542}
-  - component: {fileID: 1964954541}
+  - component: {fileID: 1964954544}
   - component: {fileID: 1964954543}
+  - component: {fileID: 1964954541}
   m_Layer: 0
   m_Name: Student
   m_TagString: Untagged
@@ -2076,9 +2077,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPoint: {fileID: 0}
   moveSpeed: 4
-  targetDistance: 1.8
+  targetDistance: 1
   moveToTargetDelay: 2
   moveToTargetTimer: 0
+  rb: {fileID: 0}
+  hitPoint: {fileID: 556128300}
+  studentDamage: 15
+  hitRadius: 1
+  timeBtwAtk: 1.2
+  comboTimer: 0
+  timeBtwTimer: 0
+  indexCombo: 1
+  attackPush: 20
   canMove: 1
   isWalking: 0
   isRunning: 0
@@ -2122,6 +2132,33 @@ CapsuleCollider:
   m_Height: 1.6442918
   m_Direction: 1
   m_Center: {x: 0.0042026043, y: 0.82275444, z: 0}
+--- !u!54 &1964954544
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964954540}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 2
+  m_Constraints: 112
+  m_CollisionDetection: 1
 --- !u!1 &2021982030
 GameObject:
   m_ObjectHideFlags: 0

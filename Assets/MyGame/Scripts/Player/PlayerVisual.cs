@@ -14,6 +14,7 @@ public class PlayerVisual : MonoBehaviour
 
     private const string IS_WALKING = "Walk";
     private const string IS_IDLE = "Idle";
+    private const string IS_COMBAT_IDLE = "Combat Idle";
     private const string IS_RUNNING = "Running";
     private const string IS_ATTACK = "Punch";
     private const string IS_BLOCK = "Block";
@@ -100,7 +101,14 @@ public class PlayerVisual : MonoBehaviour
         }
         else
         {
-            animator.CrossFade(IS_IDLE, idleDuration);
+            if(playerHealth.GetCurrentState() == PlayerHealth.State.Combat)
+            {
+                animator.CrossFade(IS_COMBAT_IDLE, idleDuration);
+            }
+            else
+            {
+                animator.CrossFade(IS_IDLE, idleDuration);
+            }
             walkingDuration = 0f;
             runningDuration = 0f;
             attackDuration = 0.01f;
@@ -114,6 +122,7 @@ public class PlayerVisual : MonoBehaviour
     private void ParryStateEnd()
     {
         playerHealth.ChangeParryState(false);
+        playerLocomotion.ChangeCanMove(true);
     }
     private void FinishPunch()
     {

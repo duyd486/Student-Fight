@@ -11,17 +11,77 @@ public class StudentAI : MonoBehaviour, IDamageable
     [SerializeField] private float moveToTargetDelay = 2f;
     [SerializeField] private float moveToTargetTimer = 0f;
 
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Transform hitPoint;
+
+    [SerializeField] private float studentDamage = 15f;
+    [SerializeField] private float hitRadius = 1f;
+    [SerializeField] private float timeBtwAtk = 0.8f;
+    [SerializeField] private float comboTimer = 0f;
+    [SerializeField] private float timeBtwTimer = 0f;
+    [SerializeField] private int indexCombo = 1;
+    [SerializeField] private float attackPush = 20f;
+
     [SerializeField] private bool canMove = true;
     [SerializeField] private bool isWalking = false;
     [SerializeField] private bool isRunning = false;
 
     public event EventHandler OnMoveChanged;
+    public event Action<int> OnStudentAttack;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     private void Update()
     {
+        timeBtwTimer -= Time.deltaTime;
+        comboTimer -= Time.deltaTime;
         if (canMove)
         {
             HandleMovement();
+        }
+    }
+
+    private void ComboPerform()
+    {
+        if (timeBtwTimer < 0f)
+        {
+
+            if (comboTimer > 0f)
+            {
+                indexCombo++;
+            }
+            else
+            {
+                indexCombo = 1;
+            }
+            if (indexCombo > 3)
+            {
+                indexCombo = 1;
+            }
+
+            OnStudentAttack?.Invoke(indexCombo);
+            comboTimer = 4f;
+            timeBtwTimer = timeBtwAtk;
+            rb.AddForce(transform.forward * attackPush);
+        }
+        else return;
+    }
+
+    public void AttackPerform()
+    {
+        Collider[] hits = Physics.OverlapSphere(hitPoint.position, hitRadius);
+
+        foreach (Collider hit in hits)
+        {
+            IDamageable target = hit.GetComponent<IDamageable>();
+
+            if (target != null)
+            {
+                target.TakeDamage(studentDamage);
+            }
         }
     }
 
@@ -38,16 +98,17 @@ public class StudentAI : MonoBehaviour, IDamageable
                 transform.forward = direction;
                 if (!isWalking)
                 {
-                    OnMoveChanged?.Invoke(this, EventArgs.Empty);
                     isWalking = true;
+                    OnMoveChanged?.Invoke(this, EventArgs.Empty);
                 }
             } else
             {
+                ComboPerform();
                 moveToTargetTimer -= Time.deltaTime;
                 if (isWalking)
                 {
-                    OnMoveChanged?.Invoke(this, EventArgs.Empty);
                     isWalking = false;
+                    OnMoveChanged?.Invoke(this, EventArgs.Empty);
                     moveToTargetTimer = moveToTargetDelay;
                 }
             }

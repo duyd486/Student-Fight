@@ -10,6 +10,7 @@ public class PlayerLocomotion : MonoBehaviour
 {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private PlayerAttack playerAttack;
+
     [SerializeField] private float currentMoveSpeed;
     [SerializeField] private float defaultMoveSpeed = 7f;
     [SerializeField] private float runSpeed = 15f;

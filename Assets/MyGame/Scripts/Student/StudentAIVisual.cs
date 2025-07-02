@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,9 +23,26 @@ public class StudentAIVisual : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    private void Start()
+    {
+        studentAI.OnMoveChanged += StudentAI_OnMoveChanged;
+        studentAI.OnStudentAttack += StudentAI_OnStudentAttack;
+    }
+
+    private void StudentAI_OnMoveChanged(object sender, EventArgs e)
     {
         HandleLocomotion();
+    }
+
+    private void StudentAI_OnStudentAttack(int index)
+    {
+        animator.CrossFade(IS_ATTACK + index.ToString(), 0f);
+        Debug.Log("Student Punch " + IS_ATTACK + index.ToString());
+    }
+
+    private void Update()
+    {
+        //HandleLocomotion();
     }
 
     private void HandleLocomotion()
@@ -43,7 +61,7 @@ public class StudentAIVisual : MonoBehaviour
         }
         else
         {
-            animator.CrossFade(IS_IDLE, 0f);
+            animator.CrossFade("Combat Idle", 0f);
         }
     }
 
@@ -57,6 +75,8 @@ public class StudentAIVisual : MonoBehaviour
     }
     private void FinishPunch()
     {
-        Debug.Log("Punch on student ai");
+        //s.ChangeCanMove(true);
+        HandleLocomotion();
+        studentAI.AttackPerform();
     }
 }
