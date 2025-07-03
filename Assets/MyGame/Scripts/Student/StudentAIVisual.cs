@@ -27,6 +27,12 @@ public class StudentAIVisual : MonoBehaviour
     {
         studentAI.OnMoveChanged += StudentAI_OnMoveChanged;
         studentAI.OnStudentAttack += StudentAI_OnStudentAttack;
+        studentAI.OnStudentHit += StudentAI_OnStudentHit;
+    }
+
+    private void StudentAI_OnStudentHit(object sender, EventArgs e)
+    {
+        animator.CrossFade(IS_HIT, 0f, 0, 0);
     }
 
     private void StudentAI_OnMoveChanged(object sender, EventArgs e)

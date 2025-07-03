@@ -28,6 +28,7 @@ public class StudentAI : MonoBehaviour, IDamageable
 
     public event EventHandler OnMoveChanged;
     public event Action<int> OnStudentAttack;
+    public event EventHandler OnStudentHit;
 
     private void Awake()
     {
@@ -117,7 +118,7 @@ public class StudentAI : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, bool canParry = true)
     {
-        Debug.Log("im being hit " + damage);
+        OnStudentHit?.Invoke(this, EventArgs.Empty);
     }
     public bool IsWalking()
     {

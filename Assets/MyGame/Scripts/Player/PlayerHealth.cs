@@ -109,6 +109,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private async void HandleParrySuccess()
     {
         isBlocking = true;
+        playerLocomotion.ChangeCanMove(false);
         OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
         await Task.Delay(200);
         playerLocomotion.ChangeCanMove(true);

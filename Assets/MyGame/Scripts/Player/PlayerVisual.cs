@@ -122,7 +122,6 @@ public class PlayerVisual : MonoBehaviour
     private void ParryStateEnd()
     {
         playerHealth.ChangeParryState(false);
-        playerLocomotion.ChangeCanMove(true);
     }
     private void FinishPunch()
     {
