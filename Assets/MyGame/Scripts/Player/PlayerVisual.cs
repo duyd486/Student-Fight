@@ -48,10 +48,12 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerHealth_OnPlayerParrySuccess(object sender, EventArgs e)
     {
         animator.CrossFade(IS_PARRY, 0f);
+        idleDuration = 0.2f;
     }
 
     private void PlayerHealth_OnPlayerHit(object sender, EventArgs e)
     {
+        playerLocomotion.ChangeCanMove(false);
         animator.CrossFade(IS_HIT, 0f, 0, 0);
     }
 
@@ -128,5 +130,9 @@ public class PlayerVisual : MonoBehaviour
         playerLocomotion.ChangeCanMove(true);
         HandleLocomotion();
         playerAttack.AttackPerform();
+    }
+    private void FinishHit()
+    {
+        playerLocomotion.ChangeCanMove(true);
     }
 }

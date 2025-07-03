@@ -85,4 +85,8 @@ public class StudentAIVisual : MonoBehaviour
         HandleLocomotion();
         studentAI.AttackPerform();
     }
+    private void FinishHit()
+    {
+        
+    }
 }

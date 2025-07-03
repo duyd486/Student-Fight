@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private GameInput gameInput;
     [SerializeField] private PlayerLocomotion playerLocomotion;
+    [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private IDamageable enemy;
 
@@ -23,6 +24,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private float timeBtwBlk = 0.8f;
     [SerializeField] private float timeBtwBlkTimer = 0f;
 
+    [SerializeField] private float combatStateMax = 10f;
+    [SerializeField] private float combatStateTimer = 0;
+
     public event EventHandler OnPlayerBlock;
     public event EventHandler OnPlayerBlockStop;
 
@@ -33,6 +37,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         gameInput = GetComponent<GameInput>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
+        playerAttack = GetComponent<PlayerAttack>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -41,12 +46,23 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         gameInput.OnBlockPress += GameInput_OnBlockPress;
         gameInput.OnBlockCancel += GameInput_OnBlockCancel;
         gameInput.OnHitTestPress += GameInput_OnHitTestPress;
+
+        playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
     }
 
 
     private void Update()
     {
         timeBtwBlkTimer -= Time.deltaTime;
+        combatStateTimer -= Time.deltaTime;
+        if(combatStateTimer < 0)
+        {
+            state = State.Default;
+        }
+    }
+    private void PlayerAttack_OnPlayerAttack(int obj)
+    {
+        SetCurrentState(State.Combat);
     }
 
     private void GameInput_OnHitTestPress(object sender, EventArgs e)
@@ -67,7 +83,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, bool canParry = true)
     {
         Debug.Log("Player is taking damage");
-        state = State.Combat;
         if (isParry)
         {
             HandleParrySuccess();
@@ -85,6 +100,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             isBlocking = false;
         }
         isParry = false;
+        state = State.Combat;
+        combatStateTimer = combatStateMax;
     }
 
     private void BlockPerform()
@@ -108,7 +125,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private async void HandleParrySuccess()
     {
-        isBlocking = true;
+        isBlocking = false;
         playerLocomotion.ChangeCanMove(false);
         OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
         await Task.Delay(200);
@@ -122,5 +139,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public State GetCurrentState()
     {
         return state;
+    }
+    public void SetCurrentState(State state)
+    {
+        this.state = state;
+        combatStateTimer = combatStateMax;
     }
 }
