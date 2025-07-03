@@ -21,6 +21,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     [SerializeField] private bool isParry = false;
     [SerializeField] private bool isBlocking = false;
+    [SerializeField] private bool canBlock = true;
     [SerializeField] private float timeBtwBlk = 0.8f;
     [SerializeField] private float timeBtwBlkTimer = 0f;
 
@@ -76,7 +77,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void GameInput_OnBlockPress(object sender, EventArgs e)
     {
-        BlockPerform();
+        if (canBlock)
+        {
+            BlockPerform();
+        }
     }
 
 
@@ -135,6 +139,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void ChangeParryState(bool state)
     {
         isParry = state;
+    }
+    public void SetCanBlock(bool canBlock)
+    {
+        this.canBlock = canBlock;
     }
     public State GetCurrentState()
     {

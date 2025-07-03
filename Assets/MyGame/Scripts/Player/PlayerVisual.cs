@@ -26,6 +26,8 @@ public class PlayerVisual : MonoBehaviour
     private float idleDuration = 0f;
     private float attackDuration = 0f;
 
+    private bool isBeingHit = false;
+
 
 
 
@@ -54,7 +56,10 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerHealth_OnPlayerHit(object sender, EventArgs e)
     {
         playerLocomotion.ChangeCanMove(false);
+        playerAttack.SetCanAttack(false);
+        playerHealth.SetCanBlock(false);
         animator.CrossFade(IS_HIT, 0f, 0, 0);
+        isBeingHit = true;
     }
 
     private void PlayerHealth_OnPlayerBlockStop(object sender, EventArgs e)
@@ -84,36 +89,39 @@ public class PlayerVisual : MonoBehaviour
 
     private void HandleLocomotion()
     {
-        if (playerLocomotion.IsWalking())
+        if (!isBeingHit)
         {
-            if (playerLocomotion.IsRunning())
+            if (playerLocomotion.IsWalking())
             {
-                animator.CrossFade(IS_RUNNING, runningDuration);
-                walkingDuration = 0.4f;
-                idleDuration = 0.6f;
-                attackDuration = 0.1f;
+                if (playerLocomotion.IsRunning())
+                {
+                    animator.CrossFade(IS_RUNNING, runningDuration);
+                    walkingDuration = 0.4f;
+                    idleDuration = 0.6f;
+                    attackDuration = 0.1f;
+                }
+                else
+                {
+                    animator.CrossFade(IS_WALKING, walkingDuration);
+                    runningDuration = 0.4f;
+                    idleDuration = 1f;
+                    attackDuration = 0.1f;
+                }
             }
             else
             {
-                animator.CrossFade(IS_WALKING, walkingDuration);
-                runningDuration = 0.4f;
-                idleDuration = 1f;
-                attackDuration = 0.1f;
+                if(playerHealth.GetCurrentState() == PlayerHealth.State.Combat)
+                {
+                    animator.CrossFade(IS_COMBAT_IDLE, idleDuration);
+                }
+                else
+                {
+                    animator.CrossFade(IS_IDLE, idleDuration);
+                }
+                walkingDuration = 0f;
+                runningDuration = 0f;
+                attackDuration = 0.01f;
             }
-        }
-        else
-        {
-            if(playerHealth.GetCurrentState() == PlayerHealth.State.Combat)
-            {
-                animator.CrossFade(IS_COMBAT_IDLE, idleDuration);
-            }
-            else
-            {
-                animator.CrossFade(IS_IDLE, idleDuration);
-            }
-            walkingDuration = 0f;
-            runningDuration = 0f;
-            attackDuration = 0.01f;
         }
     }
 
@@ -134,5 +142,8 @@ public class PlayerVisual : MonoBehaviour
     private void FinishHit()
     {
         playerLocomotion.ChangeCanMove(true);
+        playerAttack.SetCanAttack(true);
+        playerHealth.SetCanBlock(true);
+        isBeingHit = false;
     }
 }

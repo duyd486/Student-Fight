@@ -7,16 +7,16 @@ public class StudentAI : MonoBehaviour, IDamageable
 {
     [SerializeField] private Transform targetPoint;
     [SerializeField] private float moveSpeed = 4f;
-    [SerializeField] private float targetDistance = 20f;
+    [SerializeField] private float targetDistance = 1f;
     [SerializeField] private float moveToTargetDelay = 2f;
     [SerializeField] private float moveToTargetTimer = 0f;
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform hitPoint;
 
-    [SerializeField] private float studentDamage = 15f;
-    [SerializeField] private float hitRadius = 1f;
-    [SerializeField] private float timeBtwAtk = 0.8f;
+    [SerializeField] private float studentDamage = 8f;
+    [SerializeField] private float hitRadius = 0.5f;
+    [SerializeField] private float timeBtwAtk = 1.3f;
     [SerializeField] private float comboTimer = 0f;
     [SerializeField] private float timeBtwTimer = 0f;
     [SerializeField] private int indexCombo = 1;
@@ -43,6 +43,8 @@ public class StudentAI : MonoBehaviour, IDamageable
         {
             HandleMovement();
         }
+
+        DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
 
     private void ComboPerform()
@@ -90,7 +92,7 @@ public class StudentAI : MonoBehaviour, IDamageable
     {
         if (targetPoint != null)
         {
-            DebugDraw.DrawLine(targetPoint.position, transform.position, Color.yellow);
+            DebugDraw.Instance.DrawLine(targetPoint.position, transform.position, Color.yellow);
 
             if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
             {

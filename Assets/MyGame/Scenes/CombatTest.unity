@@ -208,10 +208,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1478469
+  m_Radius: 0.33575535
   m_Height: 1.6460376
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8233645, z: 0.011669904}
+  m_Center: {x: -0.009015679, y: 0.8233645, z: 0.011669904}
 --- !u!114 &8002414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,6 +267,7 @@ MonoBehaviour:
   timeBtwTimer: 0
   indexCombo: 1
   attackPush: 80
+  canAttack: 1
 --- !u!114 &8002417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,11 +282,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInput: {fileID: 8002415}
   playerLocomotion: {fileID: 8002414}
+  playerAttack: {fileID: 0}
   rb: {fileID: 0}
   isParry: 0
   isBlocking: 0
+  canBlock: 1
   timeBtwBlk: 0.2
   timeBtwBlkTimer: 0
+  combatStateMax: 10
+  combatStateTimer: 0
 --- !u!1 &226009408
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,7 +935,7 @@ Transform:
   m_GameObject: {fileID: 556128299}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1, z: 0.7}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1066,7 +1071,7 @@ Transform:
   m_GameObject: {fileID: 793261666}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.1, z: 0.7}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1879,7 +1884,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938617826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.116644, y: 0, z: 0, w: 0.9931738}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2082,8 +2087,8 @@ MonoBehaviour:
   moveToTargetTimer: 0
   rb: {fileID: 0}
   hitPoint: {fileID: 556128300}
-  studentDamage: 15
-  hitRadius: 1
+  studentDamage: 8
+  hitRadius: 0.5
   timeBtwAtk: 1.2
   comboTimer: 0
   timeBtwTimer: 0
@@ -2101,7 +2106,7 @@ Transform:
   m_GameObject: {fileID: 1964954540}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21, y: 0, z: 8.11}
+  m_LocalPosition: {x: 1.252, y: 0, z: 8.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2128,10 +2133,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1995154
+  m_Radius: 0.35110828
   m_Height: 1.6442918
   m_Direction: 1
-  m_Center: {x: 0.0042026043, y: 0.82275444, z: 0}
+  m_Center: {x: -0.009686291, y: 0.82275444, z: -0.008129805}
 --- !u!54 &1964954544
 Rigidbody:
   m_ObjectHideFlags: 0

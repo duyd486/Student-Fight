@@ -11,12 +11,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform hitPoint;
 
     [SerializeField] private float playerDamage = 15f;
-    [SerializeField] private float hitRadius = 1f;
-    [SerializeField] private float timeBtwAtk = 0.8f;
+    [SerializeField] private float hitRadius = 0.5f;
+    [SerializeField] private float timeBtwAtk = 0.9f;
     [SerializeField] private float comboTimer = 0f;
     [SerializeField] private float timeBtwTimer = 0f;
     [SerializeField] private int indexCombo = 1;
-    [SerializeField] private float attackPush = 20f;
+    [SerializeField] private float attackPush = 80f;
+    [SerializeField] private bool canAttack = true;
 
     public event Action<int> OnPlayerAttack;
 
@@ -35,12 +36,15 @@ public class PlayerAttack : MonoBehaviour
     {
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
-        DebugDraw.DrawSphere(hitPoint.position, hitRadius, Color.red);
+        DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
 
     private void GameInput_OnAttackPress(object sender, System.EventArgs e)
     {
-        ComboPerform();
+        if(canAttack)
+        {
+            ComboPerform();
+        }
     }
 
     private void ComboPerform()
@@ -82,5 +86,10 @@ public class PlayerAttack : MonoBehaviour
                 target.TakeDamage(playerDamage);
             }
         }
+    }
+
+    public void SetCanAttack(bool canAttack)
+    {
+        this.canAttack = canAttack;
     }
 }

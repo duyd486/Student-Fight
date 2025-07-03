@@ -6,51 +6,67 @@ public class DebugDraw : MonoBehaviour
 {
     public static DebugDraw Instance { get; private set; }
 
-    private void Start()
+    public List<Sphere> SphereList;
+    public List<Line> LineList;
+
+    private void Awake()
     {
         Instance = this;
     }
-
-    private Vector3? lineStart, lineEnd;
-    private Color lineColor;
-
-    private Vector3? spherePosition;
-    private float sphereRadius;
-    private Color sphereColor;
-
-    /// <summary> Vẽ 1 line duy nhất trong Scene View mỗi frame </summary>
-    public static void DrawLine(Vector3 from, Vector3 to, Color color)
+    private void Start()
     {
-        Instance.lineStart = from;
-        Instance.lineEnd = to;
-        Instance.lineColor = color;
+        SphereList = new List<Sphere>();
+        LineList = new List<Line>();
     }
 
-    /// <summary> Vẽ 1 wire sphere duy nhất mỗi frame </summary>
-    public static void DrawSphere(Vector3 position, float radius, Color color)
+    public void DrawLine(Vector3 from, Vector3 to, Color color)
     {
-        Instance.spherePosition = position;
-        Instance.sphereRadius = radius;
-        Instance.sphereColor = color;
+        Line line = new Line();
+        line.lineStart = from;
+        line.lineColor = color;
+        line.lineEnd = to;
+        LineList.Add(line);
+    }
+
+    public void DrawSphere(Vector3 position, float radius, Color color)
+    {
+        Sphere sphere = new Sphere();
+        sphere.spherePosition = position;
+        sphere.sphereRadius = radius;
+        sphere.sphereColor = color;
+        SphereList.Add(sphere);
     }
 
     private void OnDrawGizmos()
     {
-        if (lineStart.HasValue && lineEnd.HasValue)
+        if (SphereList?.Count > 0)
         {
-            Gizmos.color = lineColor;
-            Gizmos.DrawLine(lineStart.Value, lineEnd.Value);
+            foreach (Sphere sphere in SphereList)
+            {
+                Gizmos.color = sphere.sphereColor;
+                Gizmos.DrawWireSphere(sphere.spherePosition.Value, sphere.sphereRadius);
+            }
         }
-
-        if (spherePosition.HasValue)
+        if (LineList?.Count > 0)
         {
-            Gizmos.color = sphereColor;
-            Gizmos.DrawWireSphere(spherePosition.Value, sphereRadius);
+            foreach(Line line in LineList)
+            {
+                Gizmos.color = line.lineColor;
+                Gizmos.DrawLine(line.lineStart.Value, line.lineEnd.Value);
+            }
         }
-
-        // Clear sau mỗi lần vẽ
-        lineStart = null;
-        lineEnd = null;
-        spherePosition = null;
+        SphereList?.Clear();
+        LineList?.Clear();
     }
+}
+public class Sphere
+{
+    public Vector3? spherePosition;
+    public float sphereRadius;
+    public Color sphereColor;
+}
+public class Line
+{
+    public Vector3? lineStart, lineEnd;
+    public Color lineColor;
 }
