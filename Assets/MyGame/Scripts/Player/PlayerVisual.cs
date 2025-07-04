@@ -53,7 +53,7 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerAttack_OnPlayerQuickAtk(object sender, EventArgs e)
     {
-        animator.CrossFade(IS_QUICK_ATK, 0f);
+        animator.CrossFade(IS_QUICK_ATK, 0.1f);
         walkingDuration = 0.1f;
         runningDuration = 0.1f;
     }
@@ -61,7 +61,7 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerHealth_OnPlayerParrySuccess(object sender, EventArgs e)
     {
         animator.CrossFade(IS_PARRY, 0f);
-        idleDuration = 0f;
+        idleDuration = 0.2f;
         isParrying = true;
     }
 
