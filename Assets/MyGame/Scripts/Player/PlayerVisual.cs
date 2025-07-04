@@ -86,13 +86,13 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerHealth_OnPlayerBlock(object sender, EventArgs e)
     {
-        animator.CrossFade(IS_BLOCK, 0f);
+        animator.CrossFade(IS_BLOCK, 0.05f);
     }
 
     private void PlayerAttack_OnPlayerAttack(int index)
     {
         animator.CrossFade(IS_ATTACK + index.ToString(), attackDuration);
-        walkingDuration = 0f;
+        walkingDuration = 0.2f;
         runningDuration = 0.1f;
         idleDuration = 0.1f;
     }
@@ -146,6 +146,7 @@ public class PlayerVisual : MonoBehaviour
     private void ParryStateStart()
     {
         playerHealth.ChangeParryState(true);
+        playerHealth.SetIsBlock(true);
     }
     private void ParryStateEnd()
     {

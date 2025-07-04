@@ -119,7 +119,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             playerLocomotion.ChangeCanMove(false);
             OnPlayerBlock?.Invoke(this, EventArgs.Empty);
-            isBlocking = true;
             timeBtwBlkTimer = timeBtwBlk;
         }
     }
@@ -145,6 +144,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void ChangeParryState(bool state)
     {
         isParry = state;
+    }
+
+    public void SetIsBlock(bool isBlock)
+    {
+        isBlocking |= isBlock;
     }
     public void SetCanBlock(bool canBlock)
     {
