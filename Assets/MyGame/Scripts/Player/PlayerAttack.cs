@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -19,7 +20,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackPush = 80f;
     [SerializeField] private bool canAttack = true;
 
+    [SerializeField] private float quickAttackTimerMax = 1f;
+    [SerializeField] private float quickAttackTimer = 0f;
+
     public event Action<int> OnPlayerAttack;
+    public event EventHandler OnPlayerQuickAtk;
 
     private void Awake()
     {
@@ -36,6 +41,7 @@ public class PlayerAttack : MonoBehaviour
     {
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
+        quickAttackTimer -= Time.deltaTime;
         DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
 
@@ -43,8 +49,22 @@ public class PlayerAttack : MonoBehaviour
     {
         if(canAttack)
         {
-            ComboPerform();
+            if (quickAttackTimer > 0f)
+            {
+                QuickAttackPerform();
+            } else
+            {
+                ComboPerform();
+            }
         }
+    }
+
+    private void QuickAttackPerform()
+    {
+        OnPlayerQuickAtk?.Invoke(this, EventArgs.Empty);
+        rb.AddForce(transform.forward * attackPush);
+        quickAttackTimer = 0f;
+        Debug.Log("Quick Atk perform");
     }
 
     private void ComboPerform()
@@ -91,5 +111,9 @@ public class PlayerAttack : MonoBehaviour
     public void SetCanAttack(bool canAttack)
     {
         this.canAttack = canAttack;
+    }
+    public void SetQuickAttackAble()
+    {
+        quickAttackTimer = quickAttackTimerMax;
     }
 }

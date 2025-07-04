@@ -244,7 +244,7 @@ AnimatorStateMachine:
     m_Position: {x: 360, y: 50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2716032353344091866}
-    m_Position: {x: 690, y: 120, z: 0}
+    m_Position: {x: 680, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4124728654216085658}
     m_Position: {x: 370, y: 120, z: 0}
@@ -253,22 +253,25 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7625621953656922805}
-    m_Position: {x: 690, y: 50, z: 0}
+    m_Position: {x: 680, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6542524094434044097}
-    m_Position: {x: 690, y: 190, z: 0}
+    m_Position: {x: 680, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7075524180707620659}
-    m_Position: {x: 690, y: 260, z: 0}
+    m_Position: {x: 680, y: 90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 484881747666749639}
-    m_Position: {x: 690, y: 400, z: 0}
+    m_Position: {x: 680, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6465604694535685050}
-    m_Position: {x: 690, y: 330, z: 0}
+    m_Position: {x: 680, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2372404371844271573}
     m_Position: {x: 360, y: -20, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5208502461348975853}
+    m_Position: {x: 680, y: 300, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -276,7 +279,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 1090, y: 120, z: 0}
+  m_ExitPosition: {x: 920, y: 90, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 2778595094396552599}
 --- !u!1102 &4124728654216085658
@@ -300,6 +303,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: e72f357e94a8e86419088b6e95e8dac7, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &5208502461348975853
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Quick Punch
+  m_Speed: 1.5
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: aee4de8e40e14c5439b6b8e3e770c895, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

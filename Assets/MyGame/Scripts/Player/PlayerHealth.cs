@@ -49,6 +49,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         gameInput.OnHitTestPress += GameInput_OnHitTestPress;
 
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
+        playerAttack.OnPlayerQuickAtk += PlayerAttack_OnPlayerQuickAtk;
     }
 
 
@@ -62,6 +63,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
     private void PlayerAttack_OnPlayerAttack(int obj)
+    {
+        SetCurrentState(State.Combat);
+    }
+    private void PlayerAttack_OnPlayerQuickAtk(object sender, EventArgs e)
     {
         SetCurrentState(State.Combat);
     }
@@ -129,10 +134,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private async void HandleParrySuccess()
     {
+        playerAttack.SetQuickAttackAble();
         isBlocking = false;
         playerLocomotion.ChangeCanMove(false);
         OnPlayerParrySuccess?.Invoke(this, EventArgs.Empty);
-        await Task.Delay(200);
+        await Task.Delay(100);
         playerLocomotion.ChangeCanMove(true);
     }
 

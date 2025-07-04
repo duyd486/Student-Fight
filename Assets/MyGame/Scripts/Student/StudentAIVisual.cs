@@ -79,11 +79,14 @@ public class StudentAIVisual : MonoBehaviour
     {
         Debug.Log("Parry end on student ai");
     }
-    private void FinishPunch()
+    private void PunchPerform()
     {
         //s.ChangeCanMove(true);
-        HandleLocomotion();
         studentAI.AttackPerform();
+    }
+    private void PunchEnd()
+    {
+        HandleLocomotion();
     }
     private void FinishHit()
     {

@@ -33,9 +33,16 @@ public class PlayerLocomotion : MonoBehaviour
         gameInput.OnDodgePress += GameInput_OnDodgePress;
         gameInput.OnDodgeHold += GameInput_OnDodgeHold;
         gameInput.OnDodgeCancel += GameInput_OnDodgeCancel;
+
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
+        playerAttack.OnPlayerQuickAtk += PlayerAttack_OnPlayerQuickAtk;
 
         currentMoveSpeed = defaultMoveSpeed;
+    }
+
+    private void PlayerAttack_OnPlayerQuickAtk(object sender, EventArgs e)
+    {
+        canMove = false;
     }
 
     private void PlayerAttack_OnPlayerAttack(int obj)

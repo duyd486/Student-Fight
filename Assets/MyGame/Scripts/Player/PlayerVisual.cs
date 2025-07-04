@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerVisual : MonoBehaviour
@@ -20,6 +21,7 @@ public class PlayerVisual : MonoBehaviour
     private const string IS_BLOCK = "Block";
     private const string IS_PARRY = "Parry";
     private const string IS_HIT = "Hit";
+    private const string IS_QUICK_ATK = "Quick Punch";
 
     private float walkingDuration = 0f;
     private float runningDuration = 0f;
@@ -27,6 +29,7 @@ public class PlayerVisual : MonoBehaviour
     private float attackDuration = 0f;
 
     private bool isBeingHit = false;
+    private bool isParrying = false;
 
 
 
@@ -41,16 +44,25 @@ public class PlayerVisual : MonoBehaviour
 
         playerLocomotion.OnMoveChanged += PlayerLocomotion_OnMoveChanged;
         playerAttack.OnPlayerAttack += PlayerAttack_OnPlayerAttack;
+        playerAttack.OnPlayerQuickAtk += PlayerAttack_OnPlayerQuickAtk;
         playerHealth.OnPlayerBlock += PlayerHealth_OnPlayerBlock;
         playerHealth.OnPlayerBlockStop += PlayerHealth_OnPlayerBlockStop;
         playerHealth.OnPlayerHit += PlayerHealth_OnPlayerHit;
         playerHealth.OnPlayerParrySuccess += PlayerHealth_OnPlayerParrySuccess;
     }
 
+    private void PlayerAttack_OnPlayerQuickAtk(object sender, EventArgs e)
+    {
+        animator.CrossFade(IS_QUICK_ATK, 0f);
+        walkingDuration = 0.1f;
+        runningDuration = 0.1f;
+    }
+
     private void PlayerHealth_OnPlayerParrySuccess(object sender, EventArgs e)
     {
         animator.CrossFade(IS_PARRY, 0f);
-        idleDuration = 0.2f;
+        idleDuration = 0f;
+        isParrying = true;
     }
 
     private void PlayerHealth_OnPlayerHit(object sender, EventArgs e)
@@ -64,7 +76,12 @@ public class PlayerVisual : MonoBehaviour
 
     private void PlayerHealth_OnPlayerBlockStop(object sender, EventArgs e)
     {
-        HandleLocomotion();
+        if(!isParrying)
+        {
+            idleDuration = 0.2f;
+            HandleLocomotion();
+        }
+        isParrying = false;
     }
 
     private void PlayerHealth_OnPlayerBlock(object sender, EventArgs e)
@@ -75,8 +92,9 @@ public class PlayerVisual : MonoBehaviour
     private void PlayerAttack_OnPlayerAttack(int index)
     {
         animator.CrossFade(IS_ATTACK + index.ToString(), attackDuration);
-        walkingDuration = 0.1f;
+        walkingDuration = 0f;
         runningDuration = 0.1f;
+        idleDuration = 0.1f;
     }
 
     private void PlayerLocomotion_OnMoveChanged(object sender, System.EventArgs e)
@@ -133,11 +151,18 @@ public class PlayerVisual : MonoBehaviour
     {
         playerHealth.ChangeParryState(false);
     }
-    private void FinishPunch()
+    private void PunchPerform()
     {
         playerLocomotion.ChangeCanMove(true);
-        HandleLocomotion();
         playerAttack.AttackPerform();
+        if(playerLocomotion.IsWalking() || playerLocomotion.IsRunning())
+        {
+            HandleLocomotion();
+        }
+    }
+    private void PunchEnd()
+    {
+        HandleLocomotion();
     }
     private void FinishHit()
     {
