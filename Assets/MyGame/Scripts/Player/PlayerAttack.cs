@@ -104,6 +104,7 @@ public class PlayerAttack : MonoBehaviour
             if (target != null)
             {
                 target.TakeDamage(playerDamage);
+                transform.forward = (hit.transform.position - transform.position).normalized;
             }
         }
     }
