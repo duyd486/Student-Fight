@@ -6,13 +6,20 @@ using UnityEngine;
 public class StudentAI : MonoBehaviour, IDamageable
 {
     [SerializeField] private Transform targetPoint;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Transform hitPoint;
+
+    public enum State
+    {
+        Combat,
+        Default
+    }
+    private State state;
+
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float targetDistance = 1f;
     [SerializeField] private float moveToTargetDelay = 2f;
     [SerializeField] private float moveToTargetTimer = 0f;
-
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private Transform hitPoint;
 
     [SerializeField] private float studentDamage = 8f;
     [SerializeField] private float hitRadius = 0.5f;
@@ -43,6 +50,7 @@ public class StudentAI : MonoBehaviour, IDamageable
         {
             HandleMovement();
         }
+        state = State.Default;
 
         DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
