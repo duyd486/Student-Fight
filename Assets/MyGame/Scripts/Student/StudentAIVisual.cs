@@ -48,7 +48,6 @@ public class StudentAIVisual : MonoBehaviour
 
     private void Update()
     {
-        //HandleLocomotion();
     }
 
     private void HandleLocomotion()
@@ -61,7 +60,6 @@ public class StudentAIVisual : MonoBehaviour
             }
             else
             {
-                //animator.CrossFade(IS_WALKING, 0f);
                 animator.CrossFade(IS_RUNNING, 0f);
             }
         }
@@ -81,7 +79,6 @@ public class StudentAIVisual : MonoBehaviour
     }
     private void PunchPerform()
     {
-        //s.ChangeCanMove(true);
         studentAI.AttackPerform();
     }
     private void PunchEnd()
