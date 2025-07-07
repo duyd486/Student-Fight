@@ -64,7 +64,6 @@ public class PlayerAttack : MonoBehaviour
         OnPlayerQuickAtk?.Invoke(this, EventArgs.Empty);
         rb.AddForce(transform.forward * attackPush);
         quickAttackTimer = 0f;
-        Debug.Log("Quick Atk perform");
     }
 
     private void ComboPerform()
@@ -103,7 +102,7 @@ public class PlayerAttack : MonoBehaviour
 
             if (target != null)
             {
-                target.TakeDamage(playerDamage);
+                target.TakeDamage(playerDamage, gameObject);
                 transform.forward = (hit.transform.position - transform.position).normalized;
             }
         }

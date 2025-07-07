@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(float damage, bool canParry = true);
+    void TakeDamage(float damage, GameObject attacker, bool canParry = true);
 }

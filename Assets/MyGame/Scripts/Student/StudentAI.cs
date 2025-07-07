@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class StudentAI : MonoBehaviour, IDamageable
 {
@@ -40,18 +41,26 @@ public class StudentAI : MonoBehaviour, IDamageable
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        state = State.Default;
     }
 
     private void Update()
     {
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
-        if (canMove)
-        {
-            HandleMovement();
-        }
-        state = State.Default;
 
+        if(targetPoint != null && canMove)
+        {
+            switch (state)
+            {
+                case State.Default:
+                    HandleDefaultMovement();
+                    break;
+                case State.Combat:
+                    HandleCombatMovement();
+                    break;
+            }
+        }
         DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
 
@@ -91,44 +100,69 @@ public class StudentAI : MonoBehaviour, IDamageable
 
             if (target != null)
             {
-                target.TakeDamage(studentDamage);
+                target.TakeDamage(studentDamage, gameObject);
             }
         }
     }
 
-    private void HandleMovement()
+    private void HandleDefaultMovement()
     {
-        if (targetPoint != null)
+        if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
         {
-            DebugDraw.Instance.DrawLine(targetPoint.position, transform.position, Color.yellow);
-
-            if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
+            // Di chuyen den vi tri target point
+            Vector3 direction = (targetPoint.position - transform.position).normalized;
+            transform.position += moveSpeed * Time.deltaTime * direction;
+            transform.forward = direction;
+            if (!isWalking)
             {
-                Vector3 direction = (targetPoint.position - transform.position).normalized;
-                transform.position += moveSpeed * Time.deltaTime * direction;
-                transform.forward = direction;
-                if (!isWalking)
-                {
-                    isWalking = true;
-                    OnMoveChanged?.Invoke(this, EventArgs.Empty);
-                }
-            } else
+                isWalking = true;
+                OnMoveChanged?.Invoke(this, EventArgs.Empty);
+            }
+        } else
+        {
+            // Khi da den duoc vi tri
+            moveToTargetTimer -= Time.deltaTime;
+            if (isWalking)
             {
-                ComboPerform();
-                moveToTargetTimer -= Time.deltaTime;
-                if (isWalking)
-                {
-                    isWalking = false;
-                    OnMoveChanged?.Invoke(this, EventArgs.Empty);
-                    moveToTargetTimer = moveToTargetDelay;
-                }
+                isWalking = false;
+                OnMoveChanged?.Invoke(this, EventArgs.Empty);
+                moveToTargetTimer = moveToTargetDelay;
             }
         }
     }
 
-    public void TakeDamage(float damage, bool canParry = true)
+    private void HandleCombatMovement()
+    {
+        if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
+        {
+            // Di chuyen den vi tri target point
+            Vector3 direction = (targetPoint.position - transform.position).normalized;
+            transform.position += moveSpeed * Time.deltaTime * direction;
+            transform.forward = direction;
+            if (!isWalking)
+            {
+                isWalking = true;
+                OnMoveChanged?.Invoke(this, EventArgs.Empty);
+            }
+        } else
+        {
+            // Khi da den duoc vi tri
+            ComboPerform();
+            moveToTargetTimer -= Time.deltaTime;
+            if (isWalking)
+            {
+                isWalking = false;
+                OnMoveChanged?.Invoke(this, EventArgs.Empty);
+                moveToTargetTimer = moveToTargetDelay;
+            }
+        }
+    }
+
+    public void TakeDamage(float damage, GameObject attacker, bool canParry = true)
     {
         OnStudentHit?.Invoke(this, EventArgs.Empty);
+        targetPoint = attacker.transform;
+        state = State.Combat;
     }
     public bool IsWalking()
     {
@@ -137,5 +171,9 @@ public class StudentAI : MonoBehaviour, IDamageable
     public bool IsRunning()
     {
         return isRunning;
+    }
+    public State GetStudentState()
+    {
+        return state;
     }
 }

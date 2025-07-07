@@ -73,7 +73,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void GameInput_OnHitTestPress(object sender, EventArgs e)
     {
-        TakeDamage(30);
+        TakeDamage(30, gameObject);
     }
     private void GameInput_OnBlockCancel(object sender, EventArgs e)
     {
@@ -89,7 +89,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
 
 
-    public void TakeDamage(float damage, bool canParry = true)
+    public void TakeDamage(float damage, GameObject attacker, bool canParry = true)
     {
         Debug.Log("Player is taking damage");
         if (isParry)

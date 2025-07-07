@@ -11,6 +11,7 @@ public class StudentAIVisual : MonoBehaviour
 
     private const string IS_WALKING = "Walk";
     private const string IS_IDLE = "Idle";
+    private const string IS_COMBAT_IDLE = "Combat Idle";
     private const string IS_RUNNING = "Running";
     private const string IS_ATTACK = "Punch";
     private const string IS_BLOCK = "Block";
@@ -43,29 +44,32 @@ public class StudentAIVisual : MonoBehaviour
     private void StudentAI_OnStudentAttack(int index)
     {
         animator.CrossFade(IS_ATTACK + index.ToString(), 0f);
-        Debug.Log("Student Punch " + IS_ATTACK + index.ToString());
-    }
-
-    private void Update()
-    {
     }
 
     private void HandleLocomotion()
     {
-        if (studentAI.IsWalking())
+        switch (studentAI.GetStudentState())
         {
-            if (studentAI.IsRunning())
-            {
-                animator.CrossFade(IS_RUNNING, 0f);
-            }
-            else
-            {
-                animator.CrossFade(IS_RUNNING, 0f);
-            }
-        }
-        else
-        {
-            animator.CrossFade("Combat Idle", 0f);
+            case StudentAI.State.Default:
+                if (studentAI.IsWalking())
+                {
+                    animator.CrossFade(IS_WALKING, 0f);
+                }
+                else
+                {
+                    animator.CrossFade(IS_IDLE, 0f);
+                }
+                break;
+            case StudentAI.State.Combat:
+                if (studentAI.IsWalking())
+                {
+                    animator.CrossFade(IS_RUNNING, 0f);
+                }
+                else
+                {
+                    animator.CrossFade(IS_COMBAT_IDLE, 0f);
+                }
+                break;
         }
     }
 
