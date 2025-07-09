@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 
 public class StudentAI : MonoBehaviour, IDamageable
@@ -9,6 +10,7 @@ public class StudentAI : MonoBehaviour, IDamageable
     [SerializeField] private Transform targetPoint;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform hitPoint;
+    [SerializeField] private NavMeshAgent agent;
 
     public enum State
     {
@@ -44,8 +46,23 @@ public class StudentAI : MonoBehaviour, IDamageable
         state = State.Default;
     }
 
+    private void Start()
+    {
+        agent.updateRotation = false;
+    }
+
     private void Update()
     {
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            Ray movePosition = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(movePosition, out var hitInfo))
+            {
+                targetPoint.position = hitInfo.point;
+            }
+        }
+
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
 
@@ -107,11 +124,15 @@ public class StudentAI : MonoBehaviour, IDamageable
 
     private void HandleDefaultMovement()
     {
-        if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
+        if (Vector3.Distance(transform.position, targetPoint.position) > 0.2f && moveToTargetTimer < 0)
         {
             // Di chuyen den vi tri target point
-            Vector3 direction = (targetPoint.position - transform.position).normalized;
-            transform.position += moveSpeed * Time.deltaTime * direction;
+            //Vector3 direction = (targetPoint.position - transform.position).normalized;
+            //transform.position += moveSpeed * Time.deltaTime * direction;
+            //transform.forward = direction;
+            agent.speed = moveSpeed;
+            agent.SetDestination(targetPoint.position);
+            Vector3 direction = (agent.steeringTarget - transform.position).normalized;
             transform.forward = direction;
             if (!isWalking)
             {
@@ -161,8 +182,7 @@ public class StudentAI : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject attacker, bool canParry = true)
     {
         OnStudentHit?.Invoke(this, EventArgs.Empty);
-        targetPoint = attacker.transform;
-        state = State.Combat;
+        SetTargetTransform(attacker.transform);
     }
     public bool IsWalking()
     {
@@ -171,6 +191,17 @@ public class StudentAI : MonoBehaviour, IDamageable
     public bool IsRunning()
     {
         return isRunning;
+    }
+    public void SetTargetTransform(Transform target)
+    {
+        this.targetPoint = target;
+        if(target.gameObject.GetComponent<IDamageable>() != null)
+        {
+            state = State.Combat;
+        } else
+        {
+            state = State.Default;
+        }
     }
     public State GetStudentState()
     {
