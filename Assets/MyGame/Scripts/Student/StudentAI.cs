@@ -49,6 +49,9 @@ public class StudentAI : MonoBehaviour, IDamageable
     private void Start()
     {
         agent.updateRotation = false;
+        agent.SetDestination(targetPoint.position);
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        moveSpeed = UnityEngine.Random.Range(1, 3);
     }
 
     private void Update()
@@ -60,6 +63,7 @@ public class StudentAI : MonoBehaviour, IDamageable
             if(Physics.Raycast(movePosition, out var hitInfo))
             {
                 targetPoint.position = hitInfo.point;
+                SetTargetTransform(targetPoint);
             }
         }
 
@@ -127,11 +131,7 @@ public class StudentAI : MonoBehaviour, IDamageable
         if (Vector3.Distance(transform.position, targetPoint.position) > 0.2f && moveToTargetTimer < 0)
         {
             // Di chuyen den vi tri target point
-            //Vector3 direction = (targetPoint.position - transform.position).normalized;
-            //transform.position += moveSpeed * Time.deltaTime * direction;
-            //transform.forward = direction;
             agent.speed = moveSpeed;
-            agent.SetDestination(targetPoint.position);
             Vector3 direction = (agent.steeringTarget - transform.position).normalized;
             transform.forward = direction;
             if (!isWalking)
@@ -157,8 +157,8 @@ public class StudentAI : MonoBehaviour, IDamageable
         if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
         {
             // Di chuyen den vi tri target point
-            Vector3 direction = (targetPoint.position - transform.position).normalized;
-            transform.position += moveSpeed * Time.deltaTime * direction;
+            agent.speed = moveSpeed;
+            Vector3 direction = (agent.steeringTarget - transform.position).normalized;
             transform.forward = direction;
             if (!isWalking)
             {
@@ -194,13 +194,15 @@ public class StudentAI : MonoBehaviour, IDamageable
     }
     public void SetTargetTransform(Transform target)
     {
-        this.targetPoint = target;
+        targetPoint = target;
         if(target.gameObject.GetComponent<IDamageable>() != null)
         {
             state = State.Combat;
+            agent.SetDestination(targetPoint.position);
         } else
         {
             state = State.Default;
+            agent.SetDestination(targetPoint.position);
         }
     }
     public State GetStudentState()
