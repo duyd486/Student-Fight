@@ -58,15 +58,15 @@ public class StudentAI : MonoBehaviour, IDamageable
     private void Update()
     {
 
-        if(Input.GetMouseButtonDown(1))
-        {
-            Ray movePosition = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(movePosition, out var hitInfo))
-            {
-                targetPoint.position = hitInfo.point;
-                SetTargetTransform(targetPoint);
-            }
-        }
+        //if(Input.GetMouseButtonDown(1))
+        //{
+        //    Ray movePosition = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    if(Physics.Raycast(movePosition, out var hitInfo))
+        //    {
+        //        targetPoint.position = hitInfo.point;
+        //        SetTargetTransform(targetPoint);
+        //    }
+        //}
 
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
@@ -83,17 +83,12 @@ public class StudentAI : MonoBehaviour, IDamageable
                     break;
             }
         }
-
-        //if(targetPoint == null)
-        //{
-        //    GetSeat();
-        //}
-
         DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
 
     private void GetSeat()
     {
+        if (School.Instance == null) return;
         if(School.Instance.GetSeat() != null)
         {
             Seat seat = School.Instance.GetSeat();
@@ -174,6 +169,7 @@ public class StudentAI : MonoBehaviour, IDamageable
         if (Vector3.Distance(transform.position, targetPoint.position) > targetDistance && moveToTargetTimer < 0)
         {
             // Di chuyen den vi tri target point
+            SetTargetTransform(targetPoint);
             agent.speed = moveSpeed;
             Vector3 direction = (agent.steeringTarget - transform.position).normalized;
             transform.forward = direction;
@@ -186,6 +182,8 @@ public class StudentAI : MonoBehaviour, IDamageable
         {
             // Khi da den duoc vi tri
             ComboPerform();
+            Vector3 direction = (targetPoint.position - transform.position).normalized;
+            transform.forward = direction;
             moveToTargetTimer -= Time.deltaTime;
             if (isWalking)
             {
