@@ -84,10 +84,10 @@ public class StudentAI : MonoBehaviour, IDamageable
             }
         }
 
-        if(targetPoint == null)
-        {
-            GetSeat();
-        }
+        //if(targetPoint == null)
+        //{
+        //    GetSeat();
+        //}
 
         DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
     }
