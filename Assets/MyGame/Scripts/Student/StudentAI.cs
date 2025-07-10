@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
@@ -49,9 +50,9 @@ public class StudentAI : MonoBehaviour, IDamageable
     private void Start()
     {
         agent.updateRotation = false;
-        agent.SetDestination(targetPoint.position);
         agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
         moveSpeed = UnityEngine.Random.Range(1, 3);
+        GetSeat();
     }
 
     private void Update()
@@ -82,7 +83,23 @@ public class StudentAI : MonoBehaviour, IDamageable
                     break;
             }
         }
+
+        if(targetPoint == null)
+        {
+            GetSeat();
+        }
+
         DebugDraw.Instance.DrawSphere(hitPoint.position, hitRadius, Color.red);
+    }
+
+    private void GetSeat()
+    {
+        if(School.Instance.GetSeat() != null)
+        {
+            Seat seat = School.Instance.GetSeat();
+            SetTargetTransform(seat.transform);
+            seat.SetStudentSeat();
+        }
     }
 
     private void ComboPerform()
