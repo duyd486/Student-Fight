@@ -170,7 +170,7 @@ public class StudentAI : MonoBehaviour, IDamageable
         {
             // Di chuyen den vi tri target point
             SetTargetTransform(targetPoint);
-            agent.speed = moveSpeed;
+            agent.speed = 4;
             Vector3 direction = (agent.steeringTarget - transform.position).normalized;
             transform.forward = direction;
             if (!isWalking)
@@ -181,6 +181,7 @@ public class StudentAI : MonoBehaviour, IDamageable
         } else
         {
             // Khi da den duoc vi tri
+            SetTargetTransform(null);
             ComboPerform();
             Vector3 direction = (targetPoint.position - transform.position).normalized;
             transform.forward = direction;
@@ -209,6 +210,11 @@ public class StudentAI : MonoBehaviour, IDamageable
     }
     public void SetTargetTransform(Transform target)
     {
+        if (target == null)
+        {
+            agent.ResetPath();
+            return;
+        }
         targetPoint = target;
         if(target.gameObject.GetComponent<IDamageable>() != null)
         {

@@ -170,8 +170,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8002410}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 5
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -2220,8 +2220,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3844398013401666026, guid: d2fab623270250d4596593d6d331e5ba,
         type: 3}
+      propertyPath: m_Drag
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3844398013401666026, guid: d2fab623270250d4596593d6d331e5ba,
+        type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4000037117039285073, guid: d2fab623270250d4596593d6d331e5ba,
         type: 3}
@@ -2277,6 +2282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6832448618005003834, guid: d2fab623270250d4596593d6d331e5ba,
+        type: 3}
+      propertyPath: targetDistance
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
