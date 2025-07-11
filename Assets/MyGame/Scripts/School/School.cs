@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,14 +26,35 @@ public class School : MonoBehaviour
 
     public Seat GetSeat()
     {
-        foreach(Classroom cls in classes)
+        //foreach(Classroom cls in classes)
+        //{
+        //    if (cls.CheckClassroomSeat())
+        //    {
+        //        Debug.Log("Has classroom seat");
+        //        return cls.CheckEmtySeat();
+        //    }
+        //}
+        //Debug.Log("Seat null");
+        //return null;
+        List<Seat> validSeats = new List<Seat>();
+
+        foreach (Classroom cls in classes)
         {
             if (cls.CheckClassroomSeat())
             {
-                Debug.Log("Has classroom seat");
-                return cls.CheckEmtySeat();
+                Seat seat = cls.CheckEmtySeat();
+                if (seat != null)
+                    validSeats.Add(seat);
             }
         }
+
+        if (validSeats.Count > 0)
+        {
+            int randomIndex = Random.Range(0, validSeats.Count);
+            Debug.Log("Random seat selected");
+            return validSeats[randomIndex];
+        }
+
         Debug.Log("Seat null");
         return null;
     }

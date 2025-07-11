@@ -12,6 +12,7 @@ public class StudentAI : MonoBehaviour, IDamageable
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform hitPoint;
     [SerializeField] private NavMeshAgent agent;
+    private Seat mySeat;
 
     public enum State
     {
@@ -58,16 +59,6 @@ public class StudentAI : MonoBehaviour, IDamageable
     private void Update()
     {
 
-        //if(Input.GetMouseButtonDown(1))
-        //{
-        //    Ray movePosition = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    if(Physics.Raycast(movePosition, out var hitInfo))
-        //    {
-        //        targetPoint.position = hitInfo.point;
-        //        SetTargetTransform(targetPoint);
-        //    }
-        //}
-
         timeBtwTimer -= Time.deltaTime;
         comboTimer -= Time.deltaTime;
 
@@ -94,7 +85,15 @@ public class StudentAI : MonoBehaviour, IDamageable
             Seat seat = School.Instance.GetSeat();
             SetTargetTransform(seat.transform);
             seat.SetStudentSeat();
+            mySeat = seat;
+            Debug.Log(mySeat.ToString());
         }
+    }
+
+    private void OutSeat()
+    {
+        if(mySeat == null) return;
+        mySeat.SetStudentOut();
     }
 
     private void ComboPerform()
@@ -159,7 +158,12 @@ public class StudentAI : MonoBehaviour, IDamageable
             {
                 isWalking = false;
                 OnMoveChanged?.Invoke(this, EventArgs.Empty);
-                moveToTargetTimer = moveToTargetDelay;
+                moveToTargetTimer = UnityEngine.Random.Range(4f, 10f);
+            }
+            if (moveToTargetTimer < 0)
+            {
+                OutSeat();
+                GetSeat();
             }
         }
     }
