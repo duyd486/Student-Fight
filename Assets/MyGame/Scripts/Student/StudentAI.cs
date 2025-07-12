@@ -154,11 +154,12 @@ public class StudentAI : MonoBehaviour, IDamageable
         {
             // Khi da den duoc vi tri
             moveToTargetTimer -= Time.deltaTime;
+                transform.forward = targetPoint.right.normalized;
             if (isWalking)
             {
                 isWalking = false;
                 OnMoveChanged?.Invoke(this, EventArgs.Empty);
-                moveToTargetTimer = UnityEngine.Random.Range(4f, 10f);
+                moveToTargetTimer = UnityEngine.Random.Range(15f, 30f);
             }
             if (moveToTargetTimer < 0)
             {
