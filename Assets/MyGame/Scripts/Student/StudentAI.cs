@@ -205,6 +205,15 @@ public class StudentAI : MonoBehaviour, IDamageable
         OnStudentHit?.Invoke(this, EventArgs.Empty);
         SetTargetTransform(attacker.transform);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.GetComponent<StudentAI>() != null)
+        {
+            rb.AddForce(transform.right * 10f);
+        }
+    }
+
     public bool IsWalking()
     {
         return isWalking;
