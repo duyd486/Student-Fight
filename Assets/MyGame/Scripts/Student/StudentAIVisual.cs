@@ -17,6 +17,7 @@ public class StudentAIVisual : MonoBehaviour
     private const string IS_BLOCK = "Block";
     private const string IS_PARRY = "Parry";
     private const string IS_HIT = "Hit";
+    private const string IS_SIT = "Sit";
 
     private void Awake()
     {
@@ -29,6 +30,12 @@ public class StudentAIVisual : MonoBehaviour
         studentAI.OnMoveChanged += StudentAI_OnMoveChanged;
         studentAI.OnStudentAttack += StudentAI_OnStudentAttack;
         studentAI.OnStudentHit += StudentAI_OnStudentHit;
+        studentAI.OnStudentSit += StudentAI_OnStudentSit;
+    }
+
+    private void StudentAI_OnStudentSit(object sender, EventArgs e)
+    {
+        animator.CrossFade(IS_SIT, 0f);
     }
 
     private void StudentAI_OnStudentHit(object sender, EventArgs e)
