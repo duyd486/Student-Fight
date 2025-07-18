@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
@@ -52,7 +52,8 @@ public class StudentAI : MonoBehaviour, IDamageable
     private void Start()
     {
         agent.updateRotation = false;
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        agent.avoidancePriority = UnityEngine.Random.Range(30, 70); // khác nhau cho mỗi AI
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.MedQualityObstacleAvoidance;
         moveSpeed = UnityEngine.Random.Range(1, 3);
         GetSeat();
     }
@@ -210,10 +211,11 @@ public class StudentAI : MonoBehaviour, IDamageable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.GetComponent<StudentAI>() != null)
-        {
-            rb.AddForce(transform.right * 10f);
-        }
+        //if(collision.gameObject.GetComponent<StudentAI>() != null)
+        //{
+        //    rb.AddForce(transform.right * 10f);
+
+        //}
     }
 
     public bool IsWalking()

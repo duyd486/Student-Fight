@@ -11,6 +11,7 @@ public class School : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //Time.timeScale = 3f;
     }
     // Start is called before the first frame update
     void Start()
